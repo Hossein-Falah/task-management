@@ -17,8 +17,8 @@ import { TaskModule } from '../task/task.module';
       useFactory: (configService:ConfigService) => typeOrmConfig(configService),
       inject: [ConfigService]
     }),
-    UserModule,
     AuthModule, 
+    UserModule,
     TaskModule
   ],
   controllers: [],
