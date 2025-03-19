@@ -7,7 +7,7 @@ import { UserRole } from "src/common/enum/role.status";
 export class UserEntity extends AbstractEntity {
     @Column({ nullable: true, unique: true })
     phone:string;
-    @Column({ nullable: true, unique: true })
+    @Column({ unique: true })
     username:string;
     @Column({ nullable: true, unique: true })
     email:string;

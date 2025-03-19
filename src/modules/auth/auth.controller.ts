@@ -1,34 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { Controller, Post, Body, Inject } from '@nestjs/common';
+import { LoginDto, RefreshDto, RegisterDto } from './dto/auth.dto';
+import { AUTH_SERVICE } from './constants/token.constant';
+import { IAuthService } from './interfaces/auth-service.interface';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { SwaggerConsumes } from 'src/common/enum/swagger.consumes.enum';
+
 
 @Controller('auth')
+@ApiTags("Auth 🔒")
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(@Inject(AUTH_SERVICE) private readonly authService: IAuthService) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @Post("/register")
+  @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
+  register(@Body() registerDto: RegisterDto) {
+    return this.authService.register(registerDto)
+  }
+  
+  @Post("/login")
+  @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
+  login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto)
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
+  @Post("/logout")
+  logout() {
+    return this.authService.logout()
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @Post("/refresh-token")
+  @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
+  refreshToken(@Body() refreshDto: RefreshDto) {
+    return this.authService.refreshToken(refreshDto)
   }
 }
