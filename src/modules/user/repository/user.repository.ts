@@ -56,4 +56,8 @@ export class UserRepository implements IUserRepository {
     async findAllUser(): Promise<UserEntity[]> {
         return this.userModel.find();
     }
+
+    async updateRole(id: string, role: string): Promise<void> {
+        await this.userModel.update(id, { role });
+    }
 }

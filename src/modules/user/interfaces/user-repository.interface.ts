@@ -8,4 +8,5 @@ export interface IUserRepository {
     findById(id: string): Promise<UserEntity | null>;
     createUser(registerDto:RegisterDto): Promise<void>;
     findAllUser(): Promise<UserEntity[]>;
+    updateRole(id:string, role:string): Promise<void>;
 }

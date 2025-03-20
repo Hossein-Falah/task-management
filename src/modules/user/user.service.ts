@@ -3,7 +3,8 @@ import { UserEntity } from './entities/user.entity';
 import { IUserService } from './interfaces/user-service.interface';
 import { USER_REPOSITORY } from './constants/token.constant';
 import { IUserRepository } from './interfaces/user-repository.interface';
-import { AuthMessage, BadRequestMessage } from 'src/common/enum/message.enum';
+import { AuthMessage, BadRequestMessage, UserMessage } from 'src/common/enum/message.enum';
+import { ChangeRoleDto } from './dto/user.dto';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -49,7 +50,21 @@ export class UserService implements IUserService {
     return user;
   }
 
-  async getUsersForAdmin(): Promise<UserEntity[]> {
+  public async getUsersForAdmin(): Promise<UserEntity[]> {
     return this.userRepository.findAllUser();
+  }
+
+  public async changeRole(id:string, changeRoleDto: ChangeRoleDto): Promise<{message:string}> {
+    const { role } = changeRoleDto;
+
+    const user = await this.findUserById(id);
+    
+    if (user.role === role) throw new BadRequestException(UserMessage.USER_ROLE_ALREADY_CHANGED);
+
+    await this.userRepository.updateRole(id, role);
+    
+    return {
+      message: UserMessage.USER_ROLE_CHANGED,
+    }
   }
 }

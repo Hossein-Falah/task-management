@@ -21,6 +21,11 @@ export enum BadRequestMessage {
     InValid = "اطلاعات وارد شده معتبر نمی باشد"
 }
 
+export enum UserMessage {
+    USER_ROLE_ALREADY_CHANGED = "نقش کاربر قبلا تغییر کرده است لطفا به نقش دیگری تغییر دهید",
+    USER_ROLE_CHANGED="نقش کاربر با موفقیت تغییر کرد"
+}
+
 export enum TokenMessage {
     TOKEN_CREATED_FAILED = "خطای در ایجاد توکن رخ داده است لطفا مجددا تلاش کنید",
     TOKEN_INVALID = "توکن معتبر نمی باشد"

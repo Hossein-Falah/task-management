@@ -1,3 +1,4 @@
+import { ChangeRoleDto } from "../dto/user.dto";
 import { UserEntity } from "../entities/user.entity";
 
 export interface IUserService {
@@ -7,4 +8,5 @@ export interface IUserService {
     findUserByEmail(email: string): Promise<UserEntity>;
     findUserById(id: string): Promise<UserEntity>;
     getUsersForAdmin(): Promise<UserEntity[]>;
+    changeRole(id:string, changeRoleDto: ChangeRoleDto): Promise<{message:string}>;
 }
