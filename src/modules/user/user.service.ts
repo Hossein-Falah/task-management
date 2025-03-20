@@ -1,15 +1,19 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { Request } from 'express';
+import { REQUEST } from '@nestjs/core';
+import { BadRequestException, Inject, Injectable, Scope } from '@nestjs/common';
 import { UserEntity } from './entities/user.entity';
 import { IUserService } from './interfaces/user-service.interface';
 import { USER_REPOSITORY } from './constants/token.constant';
 import { IUserRepository } from './interfaces/user-repository.interface';
 import { AuthMessage, BadRequestMessage, UserMessage } from 'src/common/enum/message.enum';
-import { ChangeRoleDto } from './dto/user.dto';
+import { ChangeInformationUserDto, ChangeRoleDto } from './dto/user.dto';
+import { hashPassword } from 'src/common/utils/hash.util';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class UserService implements IUserService {
   constructor(
-    @Inject(USER_REPOSITORY) private userRepository: IUserRepository
+    @Inject(USER_REPOSITORY) private userRepository: IUserRepository,
+    @Inject(REQUEST) private request:Request
   ) { }
 
   public async checkExistUser(email: string, phone: string, username: string): Promise<UserEntity | null> {
@@ -65,6 +69,41 @@ export class UserService implements IUserService {
     
     return {
       message: UserMessage.USER_ROLE_CHANGED,
+    }
+  }
+
+  public async changeInformationUser(changeInformationUserDto: ChangeInformationUserDto): Promise<{message:string}> {
+    const { id } = this.request.user;
+    
+    const { phone, email, password } = changeInformationUserDto;
+
+    const user = await this.findUserById(id);
+
+    if (phone) {
+      const existingPhone = await this.userRepository.findByPhone(phone);
+      if (existingPhone && existingPhone.id !== id) {
+        throw new BadRequestException(UserMessage.USER_PHONE_ALREADY_EXIST);
+      }
+      user.phone = phone;
+    };
+
+    if (email) {
+      const existingEmail = await this.userRepository.findByEmail(email);
+      if (existingEmail && existingEmail.id !== id) {
+        throw new BadRequestException(UserMessage.USER_EMAIL_ALREADY_EXIST);
+      }
+      user.email = email;
+    };
+
+    if (password) {
+      const hashedPassword = hashPassword(password);
+      user.password = hashedPassword;
+    }
+
+    this.userRepository.save(user);
+
+    return {
+      message: UserMessage.USER_INFORMATION_CHANGED,
     }
   }
 }

@@ -60,4 +60,8 @@ export class UserRepository implements IUserRepository {
     async updateRole(id: string, role: string): Promise<void> {
         await this.userModel.update(id, { role });
     }
+
+    async save(user: UserEntity): Promise<UserEntity> {
+        return this.userModel.save(user);
+    }
 }

@@ -13,6 +13,8 @@ export class UserEntity extends AbstractEntity {
     email:string;
     @Column()
     password:string;
+    @Column({ nullable: true })
+    profile_image:string;
     @Column({ default: Roles.Admin })
     role:string;
     @CreateDateColumn()
