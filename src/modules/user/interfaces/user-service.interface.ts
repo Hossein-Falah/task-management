@@ -10,4 +10,5 @@ export interface IUserService {
     getUsersForAdmin(): Promise<UserEntity[]>;
     changeRole(id:string, changeRoleDto: ChangeRoleDto): Promise<{message:string}>;
     changeInformationUser(changeInformationUserDto: ChangeInformationUserDto): Promise<{message:string}>;
+    deleteUser(id:string): Promise<{message:string}>;
 }

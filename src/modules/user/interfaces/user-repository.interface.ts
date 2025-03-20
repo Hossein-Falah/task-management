@@ -10,4 +10,5 @@ export interface IUserRepository {
     findAllUser(): Promise<UserEntity[]>;
     updateRole(id:string, role:string): Promise<void>;
     save(user: UserEntity): Promise<UserEntity>;
+    removeUser(id:string): Promise<void>;
 }

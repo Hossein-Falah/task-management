@@ -1,5 +1,5 @@
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Get, Inject, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Patch } from '@nestjs/common';
 import { USER_SERVICE } from './constants/token.constant';
 import { IUserService } from './interfaces/user-service.interface';
 import { AuthDecorator } from 'src/common/decorators/auth.decorator';
@@ -28,6 +28,12 @@ export class UserController {
   @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
   changeRole(@Param("id") id: string, @Body() changeRoleDto: ChangeRoleDto) {
     return this.userService.changeRole(id, changeRoleDto)
+  }
+
+  @Delete("/delete/:id")
+  @CanAccess(Roles.Admin)
+  deleteUser(@Param("id") id: string) {
+    return this.userService.deleteUser(id);
   }
 
   @Patch("/profile")

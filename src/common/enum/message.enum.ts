@@ -24,10 +24,11 @@ export enum BadRequestMessage {
 
 export enum UserMessage {
     USER_ROLE_ALREADY_CHANGED = "نقش کاربر قبلا تغییر کرده است لطفا به نقش دیگری تغییر دهید",
-    USER_ROLE_CHANGED="نقش کاربر با موفقیت تغییر کرد",
-    USER_INFORMATION_CHANGED="اطلاعات کاربر با موفقیت تغییر کرد",
-    USER_PHONE_ALREADY_EXIST="شماره تلفن قبلا ثبت شده است",
-    USER_EMAIL_ALREADY_EXIST="ایمیل قبلا ثبت شده است"
+    USER_ROLE_CHANGED = "نقش کاربر با موفقیت تغییر کرد",
+    USER_INFORMATION_CHANGED = "اطلاعات کاربر با موفقیت تغییر کرد",
+    USER_PHONE_ALREADY_EXIST = "شماره تلفن قبلا ثبت شده است",
+    USER_EMAIL_ALREADY_EXIST = "ایمیل قبلا ثبت شده است",
+    USER_DELETED = "کاربر با موفقیت حذف شد"
 }
 
 export enum TokenMessage {

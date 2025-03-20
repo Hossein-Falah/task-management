@@ -106,4 +106,12 @@ export class UserService implements IUserService {
       message: UserMessage.USER_INFORMATION_CHANGED,
     }
   }
+
+  public async deleteUser(id:string): Promise<{message:string}> {
+    await this.userRepository.removeUser(id);
+
+    return {
+      message: UserMessage.USER_DELETED
+    }
+  }
 }
