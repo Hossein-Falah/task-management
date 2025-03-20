@@ -43,8 +43,8 @@ export class TokenService {
             const decoded = this.jwtService.verify(token, {
                 secret: this.configService.get<string>("JWT_ACCESS_SECRET")
             })
-
-            const user = await this.userService.findUserById(decoded.userId);
+                        
+            const user = await this.userService.findUserByEmail(decoded.email);
 
             return user;
         } catch (error) {

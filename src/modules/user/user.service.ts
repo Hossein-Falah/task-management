@@ -48,4 +48,8 @@ export class UserService implements IUserService {
     if (!user) throw new BadRequestException(AuthMessage.USER_NOT_FOUND);
     return user;
   }
+
+  async getUsersForAdmin(): Promise<UserEntity[]> {
+    return this.userRepository.findAllUser();
+  }
 }

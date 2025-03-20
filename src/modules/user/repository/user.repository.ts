@@ -52,4 +52,8 @@ export class UserRepository implements IUserRepository {
         });
         await this.userModel.save(user);
     }
+
+    async findAllUser(): Promise<UserEntity[]> {
+        return this.userModel.find();
+    }
 }
