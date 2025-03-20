@@ -5,4 +5,5 @@ export interface IUserService {
     createUser(email: string, phone: string, username: string, password: string): Promise<void>;
     ensureUserExist(username: string): Promise<UserEntity>;
     findUserByEmail(email:string): Promise<UserEntity>;
+    findUserById(id:string): Promise<UserEntity>;
 }

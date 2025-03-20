@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, UpdateDateColumn } from "typeorm";
 import { EntityNames } from "src/common/enum/entity.enum";
 import { AbstractEntity } from "src/common/abstracts/abstract.entity";
-import { UserRole } from "src/common/enum/role.status";
+import { Roles } from "src/common/enum/role.enum";
 
 @Entity(EntityNames.User)
 export class UserEntity extends AbstractEntity {
@@ -13,7 +13,7 @@ export class UserEntity extends AbstractEntity {
     email:string;
     @Column()
     password:string;
-    @Column({ default: UserRole.Admin })
+    @Column({ default: Roles.Admin })
     role:string;
     @CreateDateColumn()
     createdAt:Date;

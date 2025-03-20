@@ -13,7 +13,8 @@ export enum AuthMessage {
     USER_EXIST = "کاربری با این اطلاعات قبلا ثبت نام کرده است",
     USER_NOT_FOUND = "کاربری با این اطلاعات یافت نشد",
     USERNAME_OR_PASSWORD_INVALID = "رمز عبور یا نام کاربری اشتباه است",
-    LOGIN_SUCCESS = "ورود با موفقیت انجام شد"
+    LOGIN_SUCCESS = "ورود با موفقیت انجام شد",
+    LOGIN_REQUIRED = "لطفا وارد حساب کاربری خود شوید"
 }
 
 export enum BadRequestMessage {
@@ -23,4 +24,8 @@ export enum BadRequestMessage {
 export enum TokenMessage {
     TOKEN_CREATED_FAILED = "خطای در ایجاد توکن رخ داده است لطفا مجددا تلاش کنید",
     TOKEN_INVALID = "توکن معتبر نمی باشد"
+}
+
+export enum ForbiddenMessage {
+    ACCESS_DENIED = "شما مجوز دسترسی به این بخش را ندارید"
 }

@@ -42,4 +42,10 @@ export class UserService implements IUserService {
     if (!user) throw new BadRequestException(AuthMessage.USER_NOT_FOUND);
     return user;
   }
+
+  public async findUserById(id:string) {
+    const user = await this.userRepository.findById(id);
+    if (!user) throw new BadRequestException(AuthMessage.USER_NOT_FOUND);
+    return user;
+  }
 }

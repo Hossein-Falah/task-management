@@ -4,7 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 
 import { IUserRepository } from "../interfaces/user-repository.interface";
 import { UserEntity } from "../entities/user.entity";
-import { UserRole } from "src/common/enum/role.status";
+import { Roles } from "src/common/enum/role.enum";
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -34,10 +34,16 @@ export class UserRepository implements IUserRepository {
         })
     }
 
+    async findById(id: string): Promise<UserEntity | null> {
+        return this.userModel.findOne({
+            where: { id }
+        })
+    }
+
     async createUser({ email, phone, username, password }: UserEntity): Promise<void> {
         const count = await this.userModel.count();
 
-        const role = count === 0 ? UserRole.Admin : UserRole.User;
+        const role = count === 0 ? Roles.Admin : Roles.User;
         
         const user = this.userModel.create({ 
             email, phone, 
