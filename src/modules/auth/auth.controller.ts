@@ -23,11 +23,6 @@ export class AuthController {
     return this.authService.login(loginDto)
   }
 
-  @Post("/logout")
-  logout() {
-    return this.authService.logout()
-  }
-
   @Post("/refresh-token")
   @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
   refreshToken(@Body() refreshDto: RefreshDto) {

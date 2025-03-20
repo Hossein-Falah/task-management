@@ -1,9 +1,8 @@
 import { LoginDto, RefreshDto, RegisterDto } from "../dto/auth.dto"
-import { RegisterResponse } from "../types/auth.type"
+import { AuthResponse } from "../types/auth.type"
 
 export interface IAuthService {
-    register(registerDto: RegisterDto): Promise<RegisterResponse>
-    login(loginDto: LoginDto): Promise<void>
-    logout(): Promise<void>
+    register(registerDto: RegisterDto): Promise<AuthResponse>
+    login(loginDto: LoginDto): Promise<AuthResponse>
     refreshToken(refreshDto: RefreshDto): Promise<void>
 }

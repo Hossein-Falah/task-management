@@ -3,7 +3,7 @@ import { UserEntity } from './entities/user.entity';
 import { IUserService } from './interfaces/user-service.interface';
 import { USER_REPOSITORY } from './constants/token.constant';
 import { IUserRepository } from './interfaces/user-repository.interface';
-import { BadRequestMessage } from 'src/common/enum/message.enum';
+import { AuthMessage, BadRequestMessage } from 'src/common/enum/message.enum';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -29,5 +29,11 @@ export class UserService implements IUserService {
 
   public async createUser(email: string, phone: string, username: string, password: string): Promise<void> {
     await this.userRepository.createUser({ email, phone, username, password });
+  }
+
+  public async ensureUserExist(username:string) {
+    const user = await this.userRepository.findByUsername(username);
+    if (!user) throw new BadRequestException(AuthMessage.USER_NOT_FOUND);
+    return user;
   }
 }
