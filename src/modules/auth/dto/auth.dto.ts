@@ -69,5 +69,10 @@ export class LoginDto {
 }
 
 export class RefreshDto {
-    
+    @ApiProperty({
+        description: 'The refresh token of the user',
+        example: 'test',
+        type: String,
+    })
+    refreshToken:string;
 }

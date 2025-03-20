@@ -56,7 +56,19 @@ export class AuthService implements IAuthService {
     }
   }
 
-  async refreshToken(refreshDto: RefreshDto): Promise<void> {
-    return
+  async refreshToken(refreshDto: RefreshDto): Promise<AuthResponse> {
+    const { refreshToken } = refreshDto;
+
+    const decoded = this.tokenService.verifyRefreshToken(refreshToken);
+    const user = await this.userService.findUserByEmail(decoded.email);
+
+    const accessToken = this.tokenService.generateAccessToken({ email: user.email });
+    const newRefreshToken = this.tokenService.generateRefreshToken({ email: user.email });
+
+    return {
+      message: AuthMessage.LOGIN_SUCCESS,
+      accessToken,
+      refreshToken: newRefreshToken
+    }
   }
 }

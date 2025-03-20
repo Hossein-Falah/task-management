@@ -36,4 +36,10 @@ export class UserService implements IUserService {
     if (!user) throw new BadRequestException(AuthMessage.USER_NOT_FOUND);
     return user;
   }
+
+  public async findUserByEmail(email:string) {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) throw new BadRequestException(AuthMessage.USER_NOT_FOUND);
+    return user;
+  }
 }
