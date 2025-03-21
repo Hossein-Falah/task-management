@@ -28,7 +28,8 @@ export enum UserMessage {
     USER_INFORMATION_CHANGED = "اطلاعات کاربر با موفقیت تغییر کرد",
     USER_PHONE_ALREADY_EXIST = "شماره تلفن قبلا ثبت شده است",
     USER_EMAIL_ALREADY_EXIST = "ایمیل قبلا ثبت شده است",
-    USER_DELETED = "کاربر با موفقیت حذف شد"
+    USER_DELETED = "کاربر با موفقیت حذف شد",
+    USER_UPDATED = "کاربر با موفقیت به روز شد"
 }
 
 export enum TokenMessage {

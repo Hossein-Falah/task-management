@@ -5,7 +5,7 @@ import { IUserService } from './interfaces/user-service.interface';
 import { AuthDecorator } from 'src/common/decorators/auth.decorator';
 import { CanAccess } from 'src/common/decorators/role.decorator';
 import { Roles } from 'src/common/enum/role.enum';
-import { ChangeInformationUserDto, ChangeRoleDto } from './dto/user.dto';
+import { ChangeInformationUserDto, ChangeRoleDto, UpdateUserByAdminDto } from './dto/user.dto';
 import { SwaggerConsumes } from 'src/common/enum/swagger.consumes.enum';
 
 @Controller('user')
@@ -23,17 +23,24 @@ export class UserController {
     return this.userService.getUsersForAdmin()
   }
 
-  @Patch("/change-role/:id")
+  @Patch("/admin/change-role/:id")
   @CanAccess(Roles.Admin)
   @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
   changeRole(@Param("id") id: string, @Body() changeRoleDto: ChangeRoleDto) {
     return this.userService.changeRole(id, changeRoleDto)
   }
 
-  @Delete("/delete/:id")
+  @Delete("/admin/delete/:id")
   @CanAccess(Roles.Admin)
   deleteUser(@Param("id") id: string) {
     return this.userService.deleteUser(id);
+  }
+
+  @Patch("/admin/update/:id")
+  @CanAccess(Roles.Admin)
+  @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
+  updateUserByAdmin(@Param("id") id:string, @Body() updateUserByAdminDto: UpdateUserByAdminDto) {
+    return this.userService.updateUserByAdmin(id, updateUserByAdminDto);
   }
 
   @Patch("/profile")

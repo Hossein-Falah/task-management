@@ -1,4 +1,4 @@
-import { ChangeInformationUserDto, ChangeRoleDto } from "../dto/user.dto";
+import { ChangeInformationUserDto, ChangeRoleDto, UpdateUserByAdminDto } from "../dto/user.dto";
 import { UserEntity } from "../entities/user.entity";
 
 export interface IUserService {
@@ -11,4 +11,5 @@ export interface IUserService {
     changeRole(id:string, changeRoleDto: ChangeRoleDto): Promise<{message:string}>;
     changeInformationUser(changeInformationUserDto: ChangeInformationUserDto): Promise<{message:string}>;
     deleteUser(id:string): Promise<{message:string}>;
+    updateUserByAdmin(id:string, updateUserByAdminDto: UpdateUserByAdminDto): Promise<{message:string}>;
 }

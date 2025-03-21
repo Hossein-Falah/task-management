@@ -1,11 +1,11 @@
-import { Repository } from "typeorm";
+import { DeepPartial, Repository } from "typeorm";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
 import { IUserRepository } from "../interfaces/user-repository.interface";
 import { UserEntity } from "../entities/user.entity";
 import { Roles } from "src/common/enum/role.enum";
-import { AuthMessage, UserMessage } from "src/common/enum/message.enum";
+import { AuthMessage } from "src/common/enum/message.enum";
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -66,6 +66,10 @@ export class UserRepository implements IUserRepository {
         const user = await this.findById(id);
         if(!user) throw new NotFoundException(AuthMessage.USER_NOT_FOUND);
         await this.userModel.delete(id);
+    }
+
+    async updateUserForAdmin(id: string, updateObject: DeepPartial<UserEntity>): Promise<void> {
+        await this.userModel.update(id, updateObject);
     }
 
     async save(user: UserEntity): Promise<UserEntity> {

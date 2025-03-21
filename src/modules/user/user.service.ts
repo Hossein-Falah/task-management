@@ -6,8 +6,9 @@ import { IUserService } from './interfaces/user-service.interface';
 import { USER_REPOSITORY } from './constants/token.constant';
 import { IUserRepository } from './interfaces/user-repository.interface';
 import { AuthMessage, BadRequestMessage, UserMessage } from 'src/common/enum/message.enum';
-import { ChangeInformationUserDto, ChangeRoleDto } from './dto/user.dto';
+import { ChangeInformationUserDto, ChangeRoleDto, UpdateUserByAdminDto } from './dto/user.dto';
 import { hashPassword } from 'src/common/utils/hash.util';
+import { DeepPartial } from 'typeorm';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService implements IUserService {
@@ -112,6 +113,28 @@ export class UserService implements IUserService {
 
     return {
       message: UserMessage.USER_DELETED
+    }
+  }
+
+  public async updateUserByAdmin(id:string, updateUserByAdminDto: UpdateUserByAdminDto): Promise<{message:string}> {
+    const { username, email, phone, role, password } = updateUserByAdminDto;
+
+    const user = await this.findUserById(id);
+
+    const hashedPassword = password ? hashPassword(password) : user.password;
+
+    const updateObject: DeepPartial<UserEntity> = {
+      username: username || user.username,
+      email: email || user.email,
+      phone: phone || user.phone,
+      role: role || user.role,
+      password: hashedPassword
+    };
+
+    await this.userRepository.updateUserForAdmin(id, updateObject);
+
+    return {
+      message: UserMessage.USER_UPDATED
     }
   }
 }
