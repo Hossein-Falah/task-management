@@ -47,11 +47,13 @@ export class TaskService implements ITaskService {
   }
 
   async findAll(): Promise<TaskEntity[]> {
-    return []
+    const { id } = this.request.user;
+    return await this.taskRepository.findAll(id);
   }
 
   async findOne(id: string): Promise<TaskEntity | null> {
-    const task = await this.taskRepository.findById(id);
+    const { id: userId } = this.request.user;
+    const task = await this.taskRepository.findById(id, userId);
     if (!task) throw new BadRequestException(TaskMessage.TASK_NOT_FOUND);
     return task;
   }
