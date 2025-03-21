@@ -28,4 +28,8 @@ export class TaskRepository {
             where: { userId: id }
         });
     }
+
+    public async delete(id:string): Promise<void> {
+        await this.taskModel.delete(id);
+    }
 }

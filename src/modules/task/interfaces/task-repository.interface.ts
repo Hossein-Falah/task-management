@@ -6,4 +6,5 @@ export interface ITaskRepository {
     findByTitle(title: string): Promise<TaskEntity | null>,
     createTask({ title, description, attchment, userId }: ITaskValues): Promise<void>
     findAll(id:string): Promise<TaskEntity[]>
+    delete(id:string): Promise<void>
 }

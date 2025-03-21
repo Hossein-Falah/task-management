@@ -61,7 +61,15 @@ export class TaskService implements ITaskService {
   async update(id: string, taskDto: UpdateTaskDto): Promise<void> {
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: string): Promise<{ message: string }> {
+    const { id: userId } = this.request.user;
+    const task = await this.taskRepository.findById(id, userId);
+    if (!task) throw new BadRequestException(TaskMessage.TASK_NOT_FOUND);
+    await this.taskRepository.delete(id);
+
+    return {
+      message: TaskMessage.TASK_DELETED
+    }
   }
 
   async checkExistTaskWithTitle(title: string): Promise<void> {

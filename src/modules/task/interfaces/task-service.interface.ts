@@ -7,5 +7,5 @@ export interface ITaskService {
     findAll(): Promise<TaskEntity[]>;
     findOne(id: string): Promise<TaskEntity | null>;
     update(id: string, taskDto: UpdateTaskDto): Promise<void>;
-    remove(id: string): Promise<void>;
+    remove(id: string): Promise<{ message: string }>;
 }
