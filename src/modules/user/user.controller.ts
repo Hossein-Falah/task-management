@@ -1,5 +1,5 @@
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Delete, FileTypeValidator, Get, Inject, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Put, UploadedFile, UseFilters, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, FileTypeValidator, Get, Inject, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Put, Query, UploadedFile, UseFilters, UseInterceptors } from '@nestjs/common';
 import { USER_SERVICE } from './constants/token.constant';
 import { IUserService } from './interfaces/user-service.interface';
 import { AuthDecorator } from 'src/common/decorators/auth.decorator';
@@ -11,6 +11,8 @@ import { UploadFile } from 'src/common/interceptors/upload.interceptor';
 import { UploadMessage } from 'src/common/enum/message.enum';
 import { MulterFile } from 'src/common/utils/multer.util';
 import { MulterExceptionFilter } from 'src/common/exceptions/multer.exception';
+import { Pagination } from 'src/common/decorators/pagination.decorator';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Controller('user')
 @ApiTags("User 👤")
@@ -22,9 +24,10 @@ export class UserController {
   ) { }
 
   @Get("/users-for-admin")
+  @Pagination()
   @CanAccess(Roles.Admin)
-  getUsersForAdmin() {
-    return this.userService.getUsersForAdmin()
+  getUsersForAdmin(@Query() paginationDto: PaginationDto) {
+    return this.userService.getUsersForAdmin(paginationDto)
   }
 
   @Patch("/admin/change-role/:id")
