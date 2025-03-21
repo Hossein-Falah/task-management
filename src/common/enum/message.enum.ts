@@ -56,5 +56,6 @@ export enum TaskMessage {
     TITLE_REQUIRED = "عنوان الزامی است",
     TITLE_MIN_LENGTH = "عنوان باید حداقل 5 کاراکتر باشد",
     DESCRIPTION_MIN_LENGTH = "توضیحات باید حداقل 5 کاراکتر باشد",
-    TASK_DELETED = "تسک با موفقیت حذف شد"
+    TASK_DELETED = "تسک با موفقیت حذف شد",
+    TASK_UPDATED = "تسک با موفقیت به روز شد"
 }

@@ -34,6 +34,7 @@ export class TaskController {
   }
 
   @Patch(':id')
+  @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
   update(@Param('id') id: string, @Body() taskDto: UpdateTaskDto) {
     return this.taskService.update(id, taskDto);
   }

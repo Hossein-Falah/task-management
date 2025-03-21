@@ -31,4 +31,23 @@ export class TaskDto {
     attchment:string;
 }
 
-export class UpdateTaskDto extends PartialType(TaskDto) {}
+export class UpdateTaskDto {
+    @ApiProperty({
+        description: "Title of the task",
+        example: "Task 1",
+        required: true,
+        type: String
+    })
+    @IsNotEmpty({ message: TaskMessage.TITLE_REQUIRED })
+    @MinLength(5, { message: TaskMessage.TITLE_MIN_LENGTH })
+    title:string;
+    @ApiProperty({
+        description: "Description of the task",
+        example: "Description of the task",
+        required: false,
+        type: String
+    })
+    @IsOptional()
+    @MinLength(5, { message: TaskMessage.DESCRIPTION_MIN_LENGTH })
+    description:string;
+}

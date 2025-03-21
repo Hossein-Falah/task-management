@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { DeepPartial } from 'typeorm';
 import { REQUEST } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { BadRequestException, Inject, Injectable, Scope } from '@nestjs/common';
@@ -58,7 +59,25 @@ export class TaskService implements ITaskService {
     return task;
   }
 
-  async update(id: string, taskDto: UpdateTaskDto): Promise<void> {
+  async update(id: string, taskDto: UpdateTaskDto): Promise<{ message: string }> {
+    const { id: userId } = this.request.user;
+    const { title, description } = taskDto;
+    const task = await this.taskRepository.findById(id, userId);
+    if (!task) throw new BadRequestException(TaskMessage.TASK_NOT_FOUND);
+
+    await this.checkExistTaskWithTitle(title);
+
+    const updateTask: DeepPartial<TaskEntity> = {
+      title: title || task.title,
+      description: description || task.description,
+      attchmentUrl: task.attchmentUrl
+    }
+
+    await this.taskRepository.updateInformation(id, updateTask);
+
+    return {
+      message: TaskMessage.TASK_UPDATED
+    }
   }
 
   async remove(id: string): Promise<{ message: string }> {

@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { DeepPartial, Repository } from "typeorm";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TaskEntity } from "./entities/task.entity";
@@ -31,5 +31,9 @@ export class TaskRepository {
 
     public async delete(id:string): Promise<void> {
         await this.taskModel.delete(id);
+    }
+
+    public async updateInformation(id:string, updateTask: DeepPartial<TaskEntity>): Promise<void> {
+        await this.taskModel.update(id, updateTask);
     }
 }
