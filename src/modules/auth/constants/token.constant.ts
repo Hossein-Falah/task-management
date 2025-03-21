@@ -1,0 +1,3 @@
+export const AUTH_SERVICE = "AUTH_SERVICE";
+export const TOKEN_SERVICE = "TOKEN_SERVICE";
+export const JWT_SERVICE = "JWT_SERVICE";
