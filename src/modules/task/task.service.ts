@@ -1,10 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import { Inject, Injectable } from '@nestjs/common';
+import { TaskDto, UpdateTaskDto } from './dto/task.dto';
+import { TASK_REPOSITORY } from './constants/token.constant';
+import { ITaskRepository } from './interfaces/task-repository.interface';
 
 @Injectable()
 export class TaskService {
-  create(createTaskDto: CreateTaskDto) {
+  constructor(
+    @Inject(TASK_REPOSITORY) private taskRepository: ITaskRepository
+  ) { }
+  
+  create(taskDto: TaskDto) {
     return 'This action adds a new task';
   }
 
@@ -16,7 +21,7 @@ export class TaskService {
     return `This action returns a #${id} task`;
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
+  update(id: number, taskDto: UpdateTaskDto) {
     return `This action updates a #${id} task`;
   }
 

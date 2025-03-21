@@ -1,7 +1,8 @@
-import { Column, CreateDateColumn, Entity, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, UpdateDateColumn } from "typeorm";
 import { EntityNames } from "src/common/enum/entity.enum";
 import { AbstractEntity } from "src/common/abstracts/abstract.entity";
 import { Roles } from "src/common/enum/role.enum";
+import { TaskEntity } from "src/modules/task/entities/task.entity";
 
 @Entity(EntityNames.User)
 export class UserEntity extends AbstractEntity {
@@ -17,6 +18,8 @@ export class UserEntity extends AbstractEntity {
     profile_image:string;
     @Column({ default: Roles.Admin })
     role:string;
+    @OneToMany(() => TaskEntity, task => task.user)
+    tasks:TaskEntity[];
     @CreateDateColumn()
     createdAt:Date;
     @UpdateDateColumn()
