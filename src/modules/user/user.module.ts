@@ -4,9 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { USER_REPOSITORY, USER_SERVICE } from './constants/token.constant';
 import { providers } from './user.provider';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     TypeOrmModule.forFeature([UserEntity])
   ],
   controllers: [UserController],

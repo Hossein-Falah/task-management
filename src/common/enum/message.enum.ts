@@ -14,18 +14,37 @@ export enum AuthMessage {
     USER_NOT_FOUND = "کاربری با این اطلاعات یافت نشد",
     USERNAME_OR_PASSWORD_INVALID = "رمز عبور یا نام کاربری اشتباه است",
     LOGIN_SUCCESS = "ورود با موفقیت انجام شد",
-    LOGIN_REQUIRED = "لطفا وارد حساب کاربری خود شوید"
+    LOGIN_REQUIRED = "لطفا وارد حساب کاربری خود شوید",
+    INVALID_EMAIL = "ایمیل معتبر نمی باشد"
 }
 
 export enum BadRequestMessage {
     InValid = "اطلاعات وارد شده معتبر نمی باشد"
 }
 
+export enum UserMessage {
+    USER_ROLE_ALREADY_CHANGED = "نقش کاربر قبلا تغییر کرده است لطفا به نقش دیگری تغییر دهید",
+    USER_ROLE_CHANGED = "نقش کاربر با موفقیت تغییر کرد",
+    USER_INFORMATION_CHANGED = "اطلاعات کاربر با موفقیت تغییر کرد",
+    USER_PHONE_ALREADY_EXIST = "شماره تلفن قبلا ثبت شده است",
+    USER_EMAIL_ALREADY_EXIST = "ایمیل قبلا ثبت شده است",
+    USER_DELETED = "کاربر با موفقیت حذف شد",
+    USER_UPDATED = "کاربر با موفقیت به روز شد",
+    USER_PROFILE_UPLOADED = "تصویر پروفایل کاربر با موفقیت آپلود شد"
+}
+
 export enum TokenMessage {
     TOKEN_CREATED_FAILED = "خطای در ایجاد توکن رخ داده است لطفا مجددا تلاش کنید",
-    TOKEN_INVALID = "توکن معتبر نمی باشد"
+    TOKEN_INVALID = "توکن معتبر نمی باشد",
+    TOKEN_EXPIRED = "توکن منقضی شده است لطفا مجددا وارد حساب کاربری خود شوید"
 }
 
 export enum ForbiddenMessage {
     ACCESS_DENIED = "شما مجوز دسترسی به این بخش را ندارید"
+}
+
+export enum UploadMessage {
+    INVALID_IMAGE_FORMAT = "فقط فرمت png, jpg, jpeg مورد قبول است",
+    FILE_SIZE_EXCEEDED = "حجم فایل باید کمتر از 5MB باشد",
+    IMAGE_REQUIRED = "تصویر الزامی است"
 }
