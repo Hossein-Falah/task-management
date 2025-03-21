@@ -146,7 +146,6 @@ export class UserService implements IUserService {
 
     let user = await this.findUserById(id);
 
-
     if (image) {
       const normalizePath = image.path.replace(/\\/g, "/");
 

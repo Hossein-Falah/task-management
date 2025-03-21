@@ -48,3 +48,14 @@ export enum UploadMessage {
     FILE_SIZE_EXCEEDED = "حجم فایل باید کمتر از 5MB باشد",
     IMAGE_REQUIRED = "تصویر الزامی است"
 }
+
+export enum TaskMessage {
+    TASK_NOT_FOUND = "تسکی با این اطلاعات یافت نشد",
+    TASK_ALREADY_EXIST = "تسکی با این عنوان قبلا ثبت شده است",
+    TASK_CREATED = "تسک با موفقیت ثبت شد",
+    TITLE_REQUIRED = "عنوان الزامی است",
+    TITLE_MIN_LENGTH = "عنوان باید حداقل 5 کاراکتر باشد",
+    DESCRIPTION_MIN_LENGTH = "توضیحات باید حداقل 5 کاراکتر باشد",
+    TASK_DELETED = "تسک با موفقیت حذف شد",
+    TASK_UPDATED = "تسک با موفقیت به روز شد"
+}

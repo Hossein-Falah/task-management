@@ -1,15 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TaskService } from './task.service';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { ITaskService } from './interfaces/task-service.interface';
+import { TaskDto, UpdateTaskDto } from './dto/task.dto';
+import { TASK_SERVICE } from './constants/token.constant';
+import { AuthDecorator } from 'src/common/decorators/auth.decorator';
+import { UploadFileAttchment } from 'src/common/interceptors/upload.interceptor';
+import { MulterFile } from 'src/common/utils/multer.util';
+import { SwaggerConsumes } from 'src/common/enum/swagger.consumes.enum';
 
 @Controller('task')
+@ApiTags("Task")
+@AuthDecorator()
 export class TaskController {
-  constructor(private readonly taskService: TaskService) {}
+  constructor(
+    @Inject(TASK_SERVICE) private taskService: ITaskService,
+  ) {}
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.taskService.create(createTaskDto);
+  @ApiConsumes(SwaggerConsumes.Multipart)
+  @UseInterceptors(UploadFileAttchment("attchment", "attchment_task"))
+  create(@Body() taskDto: TaskDto, @UploadedFile() attchment: MulterFile) {
+    return this.taskService.createTask(taskDto, attchment);
   }
 
   @Get()
@@ -19,16 +30,17 @@ export class TaskController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.taskService.findOne(+id);
+    return this.taskService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.taskService.update(+id, updateTaskDto);
+  @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
+  update(@Param('id') id: string, @Body() taskDto: UpdateTaskDto) {
+    return this.taskService.update(id, taskDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.taskService.remove(+id);
+    return this.taskService.remove(id);
   }
 }

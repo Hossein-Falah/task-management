@@ -19,7 +19,7 @@ import { TaskModule } from '../task/task.module';
     }),
     AuthModule, 
     UserModule,
-    TaskModule
+    TaskModule,
   ],
   controllers: [],
   providers: [],

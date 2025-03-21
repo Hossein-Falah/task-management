@@ -1,7 +1,7 @@
 import { BadRequestException } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express"
-import { multerStorage } from "../utils/multer.util"
 import { UploadMessage } from "../enum/message.enum";
+import { multerStorage, multerStorageAttchment } from "../utils/multer.util"
 
 export const UploadFile = (fieldName: string, folderName: string) => {
     return class UploadUtility extends FileInterceptor(fieldName, {
@@ -16,4 +16,13 @@ export const UploadFile = (fieldName: string, folderName: string) => {
             callback(null, true);
         }
     }) { }
+}
+
+export const UploadFileAttchment = (fieldName: string, folderName: string) => {
+    return class UploadUtility extends FileInterceptor(fieldName, {
+        storage: multerStorageAttchment(folderName),
+        limits: {
+            fileSize: 1024 * 1024 * 5
+        }
+    }) {}
 }
