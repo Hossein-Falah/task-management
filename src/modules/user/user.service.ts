@@ -11,6 +11,7 @@ import { AuthMessage, BadRequestMessage, UserMessage } from 'src/common/enum/mes
 import { ChangeInformationUserDto, ChangeRoleDto, UpdateUserByAdminDto } from './dto/user.dto';
 import { hashPassword } from 'src/common/utils/hash.util';
 import { MulterFile } from 'src/common/utils/multer.util';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService implements IUserService {
@@ -58,8 +59,8 @@ export class UserService implements IUserService {
     return user;
   }
 
-  public async getUsersForAdmin(): Promise<UserEntity[]> {
-    return this.userRepository.findAllUser();
+  public async getUsersForAdmin(paginationDto: PaginationDto): Promise<{ users: UserEntity[], pagination: PaginationDto }> {
+    return this.userRepository.findAllUser(paginationDto);
   }
 
   public async changeRole(id: string, changeRoleDto: ChangeRoleDto): Promise<{ message: string }> {

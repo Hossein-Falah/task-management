@@ -10,6 +10,7 @@ import { ITaskService } from './interfaces/task-service.interface';
 import { MulterFile } from 'src/common/utils/multer.util';
 import { TaskEntity } from './entities/task.entity';
 import { TaskMessage } from 'src/common/enum/message.enum';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable({ scope: Scope.REQUEST })
 export class TaskService implements ITaskService {
@@ -47,9 +48,9 @@ export class TaskService implements ITaskService {
     }
   }
 
-  async findAll(): Promise<TaskEntity[]> {
+  async findAll(paginationDto: PaginationDto): Promise<{ tasks: TaskEntity[], pagination: PaginationDto }> {
     const { id } = this.request.user;
-    return await this.taskRepository.findAll(id);
+    return await this.taskRepository.findAll(id, paginationDto);
   }
 
   async findOne(id: string): Promise<TaskEntity | null> {

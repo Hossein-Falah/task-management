@@ -1,5 +1,5 @@
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
 import { ITaskService } from './interfaces/task-service.interface';
 import { TaskDto, UpdateTaskDto } from './dto/task.dto';
 import { TASK_SERVICE } from './constants/token.constant';
@@ -7,6 +7,8 @@ import { AuthDecorator } from 'src/common/decorators/auth.decorator';
 import { UploadFileAttchment } from 'src/common/interceptors/upload.interceptor';
 import { MulterFile } from 'src/common/utils/multer.util';
 import { SwaggerConsumes } from 'src/common/enum/swagger.consumes.enum';
+import { Pagination } from 'src/common/decorators/pagination.decorator';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Controller('task')
 @ApiTags("Task")
@@ -24,8 +26,9 @@ export class TaskController {
   }
 
   @Get()
-  findAll() {
-    return this.taskService.findAll();
+  @Pagination()
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.taskService.findAll(paginationDto);
   }
 
   @Get(':id')

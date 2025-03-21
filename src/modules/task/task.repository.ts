@@ -3,6 +3,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TaskEntity } from "./entities/task.entity";
 import { ITaskValues } from "./interfaces/task.values.interface";
+import { PaginationDto } from "src/common/dto/pagination.dto";
+import { PaginationGenerator, PaginationSolver } from "src/common/utils/pagination.util";
 
 @Injectable()
 export class TaskRepository {
@@ -23,10 +25,21 @@ export class TaskRepository {
         await this.taskModel.save(task);
     }
 
-    public async findAll(id:string): Promise<TaskEntity[]> {
-        return this.taskModel.find({ 
-            where: { userId: id }
+    public async findAll(id:string, paginationDto: PaginationDto): Promise<{ tasks: TaskEntity[], pagination: PaginationDto }> {
+        const { skip, limit, page } = PaginationSolver(paginationDto);
+        const [tasks, count] = await this.taskModel.findAndCount({
+            where: { userId: id },
+            take: limit,
+            skip,
+            order: {
+                createdAt: "DESC"
+            }
         });
+
+        return {
+            pagination: PaginationGenerator(count, page, limit),
+            tasks
+        }
     }
 
     public async delete(id:string): Promise<void> {

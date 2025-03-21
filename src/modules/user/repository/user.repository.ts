@@ -6,6 +6,8 @@ import { IUserRepository } from "../interfaces/user-repository.interface";
 import { UserEntity } from "../entities/user.entity";
 import { Roles } from "src/common/enum/role.enum";
 import { AuthMessage } from "src/common/enum/message.enum";
+import { PaginationDto } from "src/common/dto/pagination.dto";
+import { PaginationGenerator, PaginationSolver } from "src/common/utils/pagination.util";
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -54,8 +56,21 @@ export class UserRepository implements IUserRepository {
         await this.userModel.save(user);
     }
 
-    async findAllUser(): Promise<UserEntity[]> {
-        return this.userModel.find();
+    async findAllUser(paginationDto: PaginationDto): Promise<{ users: UserEntity[], pagination: PaginationDto }> {
+        const { skip, limit, page } = PaginationSolver(paginationDto);
+        const [users, count] = await this.userModel.findAndCount({
+            where: {},
+            take: limit,
+            skip,
+            order: {
+                createdAt: "DESC"
+            }
+        })
+
+        return {
+            pagination: PaginationGenerator(count, page, limit),
+            users,
+        }
     }
 
     async updateRole(id: string, role: string): Promise<void> {
