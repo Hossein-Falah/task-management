@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, Matches, MinLength } from "class-validator";
-import { AuthMessage, RegisterMessage } from "src/common/enum/message.enum";
+import { AuthMessage, RegisterMessage, UploadMessage } from "src/common/enum/message.enum";
 import { Roles } from "src/common/enum/role.enum";
 
 export class ChangeRoleDto {
@@ -95,4 +95,16 @@ export class UpdateUserByAdminDto {
     })
     @IsEnum(Roles)
     role: Roles;
+}
+
+export class UploadProfileDto {
+    @ApiPropertyOptional({
+        description: "The profile image of the user",
+        example: "profile.jpg",
+        type: String,
+        format: "binary",
+        required: false,
+    })
+    @IsOptional()
+    image:string;
 }

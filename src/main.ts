@@ -11,6 +11,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   const configService = app.get(ConfigService);
   SwaggerConfigInit(app);
+  app.useStaticAssets("public")
   await app.listen(configService.get<number>("APP_PORT") ?? 3000, () => {
     console.log(`Server is running or http://localhost:${configService.get<number>("APP_PORT")}`);
     console.log(`Swagger is running http://localhost:${configService.get<number>("APP_PORT")}${configService.get<string>("DOC_PATH")}`);

@@ -29,12 +29,14 @@ export enum UserMessage {
     USER_PHONE_ALREADY_EXIST = "شماره تلفن قبلا ثبت شده است",
     USER_EMAIL_ALREADY_EXIST = "ایمیل قبلا ثبت شده است",
     USER_DELETED = "کاربر با موفقیت حذف شد",
-    USER_UPDATED = "کاربر با موفقیت به روز شد"
+    USER_UPDATED = "کاربر با موفقیت به روز شد",
+    USER_PROFILE_UPLOADED = "تصویر پروفایل کاربر با موفقیت آپلود شد"
 }
 
 export enum TokenMessage {
     TOKEN_CREATED_FAILED = "خطای در ایجاد توکن رخ داده است لطفا مجددا تلاش کنید",
-    TOKEN_INVALID = "توکن معتبر نمی باشد"
+    TOKEN_INVALID = "توکن معتبر نمی باشد",
+    TOKEN_EXPIRED = "توکن منقضی شده است لطفا مجددا وارد حساب کاربری خود شوید"
 }
 
 export enum ForbiddenMessage {
@@ -43,4 +45,6 @@ export enum ForbiddenMessage {
 
 export enum UploadMessage {
     INVALID_IMAGE_FORMAT = "فقط فرمت png, jpg, jpeg مورد قبول است",
+    FILE_SIZE_EXCEEDED = "حجم فایل باید کمتر از 5MB باشد",
+    IMAGE_REQUIRED = "تصویر الزامی است"
 }

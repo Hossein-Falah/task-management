@@ -1,12 +1,16 @@
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Delete, Get, Inject, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, FileTypeValidator, Get, Inject, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Put, UploadedFile, UseFilters, UseInterceptors } from '@nestjs/common';
 import { USER_SERVICE } from './constants/token.constant';
 import { IUserService } from './interfaces/user-service.interface';
 import { AuthDecorator } from 'src/common/decorators/auth.decorator';
 import { CanAccess } from 'src/common/decorators/role.decorator';
 import { Roles } from 'src/common/enum/role.enum';
-import { ChangeInformationUserDto, ChangeRoleDto, UpdateUserByAdminDto } from './dto/user.dto';
+import { ChangeInformationUserDto, ChangeRoleDto, UpdateUserByAdminDto, UploadProfileDto } from './dto/user.dto';
 import { SwaggerConsumes } from 'src/common/enum/swagger.consumes.enum';
+import { UploadFile } from 'src/common/interceptors/upload.interceptor';
+import { UploadMessage } from 'src/common/enum/message.enum';
+import { MulterFile } from 'src/common/utils/multer.util';
+import { MulterExceptionFilter } from 'src/common/exceptions/multer.exception';
 
 @Controller('user')
 @ApiTags("User 👤")
@@ -47,5 +51,16 @@ export class UserController {
   @ApiConsumes(SwaggerConsumes.UrlEncoded, SwaggerConsumes.Json)
   changeInformationUser(@Body() changeInformationUserDto: ChangeInformationUserDto) {
     return this.userService.changeInformationUser(changeInformationUserDto)
+  }
+
+  @Put("/profile/upload")
+  @UseFilters(new MulterExceptionFilter())
+  @ApiConsumes(SwaggerConsumes.Multipart)
+  @UseInterceptors(UploadFile("image", "user_profile"))
+  uploadProfileImage(
+    @UploadedFile() image: MulterFile,
+    @Body() uploadProfileDto: UploadProfileDto
+  ) {
+    return this.userService.uploadProfile(image)
   }
 }

@@ -1,4 +1,4 @@
-import { JwtService } from "@nestjs/jwt";
+import { JsonWebTokenError, JwtService, TokenExpiredError } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { TokenPayload } from "../types/auth.type";
@@ -48,6 +48,12 @@ export class TokenService {
 
             return user;
         } catch (error) {
+            if (error instanceof TokenExpiredError) {
+                throw new BadRequestException(TokenMessage.TOKEN_EXPIRED);
+            }
+            if (error instanceof JsonWebTokenError) {
+                throw new BadRequestException(TokenMessage.TOKEN_INVALID);
+            }
             throw new BadRequestException(TokenMessage.TOKEN_INVALID);
         }
     }
