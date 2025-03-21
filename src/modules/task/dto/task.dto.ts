@@ -1,4 +1,6 @@
 import { ApiProperty, PartialType } from "@nestjs/swagger";
+import { IsNotEmpty, IsOptional, MinLength } from "class-validator";
+import { TaskMessage } from "src/common/enum/message.enum";
 
 export class TaskDto {
     @ApiProperty({
@@ -7,6 +9,8 @@ export class TaskDto {
         required: true,
         type: String
     })
+    @IsNotEmpty({ message: TaskMessage.TITLE_REQUIRED })
+    @MinLength(5, { message: TaskMessage.TITLE_MIN_LENGTH })
     title:string;
     @ApiProperty({
         description: "Description of the task",
@@ -14,6 +18,8 @@ export class TaskDto {
         required: false,
         type: String
     })
+    @IsOptional()
+    @MinLength(5, { message: TaskMessage.DESCRIPTION_MIN_LENGTH })
     description:string;
     @ApiProperty({
         description: "Attachment URL of the task",
@@ -22,7 +28,7 @@ export class TaskDto {
         type: String,
         format: "binary"
     })
-    attchmentUrl:string;
+    attchment:string;
 }
 
 export class UpdateTaskDto extends PartialType(TaskDto) {}

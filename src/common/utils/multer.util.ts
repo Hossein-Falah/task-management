@@ -45,3 +45,17 @@ export const multerStorage = (folderName: string) => {
         filename: multerFilename
     })
 }
+
+export const multerStorageAttchment = (folderName: string) => {
+    return diskStorage({
+        destination(req, file, callback) {
+            const path = join("public", "uploads", folderName);
+            mkdirSync(path, { recursive: true });
+            callback(null, path);
+        },
+        filename(req, file, callback) {
+            const filename = `${Date.now()}${extname(file.originalname).toLowerCase()}`;
+            callback(null, filename);
+        },
+    })
+}

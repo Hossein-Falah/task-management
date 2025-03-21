@@ -1,9 +1,12 @@
-import { ApiTags } from '@nestjs/swagger';
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ITaskService } from './interfaces/task-service.interface';
 import { TaskDto, UpdateTaskDto } from './dto/task.dto';
 import { TASK_SERVICE } from './constants/token.constant';
 import { AuthDecorator } from 'src/common/decorators/auth.decorator';
+import { UploadFileAttchment } from 'src/common/interceptors/upload.interceptor';
+import { MulterFile } from 'src/common/utils/multer.util';
+import { SwaggerConsumes } from 'src/common/enum/swagger.consumes.enum';
 
 @Controller('task')
 @ApiTags("Task")
@@ -14,8 +17,10 @@ export class TaskController {
   ) {}
 
   @Post()
-  create(@Body() taskDto: TaskDto) {
-    return this.taskService.create(taskDto);
+  @ApiConsumes(SwaggerConsumes.Multipart)
+  @UseInterceptors(UploadFileAttchment("attchment", "attchment_task"))
+  create(@Body() taskDto: TaskDto, @UploadedFile() attchment: MulterFile) {
+    return this.taskService.createTask(taskDto, attchment);
   }
 
   @Get()
